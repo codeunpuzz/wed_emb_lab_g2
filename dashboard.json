@@ -1,0 +1,249 @@
+{
+ "version": "application/octet-stream",
+ "allow_edit": true,
+ "plugins": [],
+ "panes": [
+  {
+   "title": "Date Time Status",
+   "width": 1,
+   "row": {
+    "3": 1,
+    "4": 1,
+    "5": 1
+   },
+   "col": {
+    "3": 1,
+    "4": 1,
+    "5": 1
+   },
+   "col_width": "2",
+   "widgets": [
+    {
+     "type": "text_widget",
+     "settings": {
+      "title": "Current Time",
+      "size": "regular",
+      "value": "datasources[\"TIME\"][\"full_string_value\"]",
+      "sparkline": false,
+      "animate": true
+     }
+    },
+    {
+     "type": "text_widget",
+     "settings": {
+      "title": "Last water time",
+      "size": "regular",
+      "value": "if(datasources[\"esp8266\"][\"/SmartPlant/dirt\"].split(\"+\")[6]==\"1\"){\n    return datasources[\"TIME\"][\"full_string_value\"];\n}",
+      "sparkline": false,
+      "animate": true
+     }
+    }
+   ]
+  },
+  {
+   "title": "AUTO WATER SYSTEM (By Humidity)",
+   "width": 1,
+   "row": {
+    "3": 5,
+    "4": 7,
+    "5": 5
+   },
+   "col": {
+    "3": 2,
+    "4": 1,
+    "5": 3
+   },
+   "col_width": 1,
+   "widgets": [
+    {
+     "type": "text_widget",
+     "settings": {
+      "title": "Auto water when humidity under:",
+      "size": "regular",
+      "value": "datasources[\"esp8266\"][\"/SmartPlant/dirt\"].split(\"+\")[5]",
+      "animate": true,
+      "units": "Percent"
+     }
+    },
+    {
+     "type": "Slider",
+     "settings": {
+      "caption": "Set Humidity",
+      "color": "grey",
+      "showvalue": 1,
+      "min": 0,
+      "max": "99",
+      "step": 1,
+      "initialvalue": "0",
+      "autovaluesource": "",
+      "onSlide": "",
+      "onStop": "microgear[\"esp8266\"].chat(\"nodemcu\", \"l\" + value+\" \");",
+      "onCreatedAction": ""
+     }
+    },
+    {
+     "type": "Toggle",
+     "settings": {
+      "state": "datasources[\"esp8266\"][\"/SmartPlant/dirt\"].split(\"+\")[3]==\"1\"",
+      "ontext": "ON",
+      "offtext": "OFF",
+      "onaction": "microgear[\"esp8266\"].chat(\"nodemcu\", \"ah1\");",
+      "offaction": "microgear[\"esp8266\"].chat(\"nodemcu\", \"ah0\");"
+     }
+    }
+   ]
+  },
+  {
+   "title": "Auto Water System (By Time)",
+   "width": 1,
+   "row": {
+    "4": 7
+   },
+   "col": {
+    "4": 2
+   },
+   "col_width": 1,
+   "widgets": [
+    {
+     "type": "text_widget",
+     "settings": {
+      "title": "Hour(s) to water",
+      "size": "regular",
+      "value": "datasources[\"esp8266\"][\"/SmartPlant/dirt\"].split(\"+\")[1]",
+      "animate": true
+     }
+    },
+    {
+     "type": "Slider",
+     "settings": {
+      "caption": "Set Hour(s) :",
+      "color": "grey",
+      "showvalue": 1,
+      "min": 0,
+      "max": 100,
+      "step": 1,
+      "initialvalue": "0",
+      "onStop": "microgear[\"esp8266\"].chat(\"nodemcu\", \"h\" + value+\" \");"
+     }
+    },
+    {
+     "type": "text_widget",
+     "settings": {
+      "title": "Minute(s) to water",
+      "size": "regular",
+      "value": "datasources[\"esp8266\"][\"/SmartPlant/dirt\"].split(\"+\")[2]",
+      "animate": true
+     }
+    },
+    {
+     "type": "Slider",
+     "settings": {
+      "caption": "Set Minute(s) :",
+      "color": "grey",
+      "showvalue": 1,
+      "min": 0,
+      "max": "59",
+      "step": 1,
+      "initialvalue": "0",
+      "onSlide": "",
+      "onStop": "microgear[\"esp8266\"].chat(\"nodemcu\", \"m\" + value+\" \");"
+     }
+    },
+    {
+     "type": "Toggle",
+     "settings": {
+      "state": "datasources[\"esp8266\"][\"/SmartPlant/dirt\"].split(\"+\")[4]==\"1\"",
+      "ontext": "ON",
+      "offtext": "OFF",
+      "onaction": "microgear[\"esp8266\"].chat(\"nodemcu\", \"at1\");",
+      "offaction": "microgear[\"esp8266\"].chat(\"nodemcu\", \"at0\");"
+     }
+    }
+   ]
+  },
+  {
+   "width": 1,
+   "row": {
+    "3": 9,
+    "4": 1,
+    "5": 9
+   },
+   "col": {
+    "3": 1,
+    "4": 3,
+    "5": 1
+   },
+   "col_width": 1,
+   "widgets": [
+    {
+     "type": "gauge",
+     "settings": {
+      "title": "Humidity",
+      "value": "datasources[\"esp8266\"][\"/SmartPlant/dirt\"].split(\"+\")[0]",
+      "units": "%",
+      "min_value": 0,
+      "max_value": 100
+     }
+    }
+   ]
+  },
+  {
+   "title": "WATER STATUS",
+   "width": 1,
+   "row": {
+    "3": 17,
+    "4": 9,
+    "5": 9
+   },
+   "col": {
+    "3": 1,
+    "4": 3,
+    "5": 2
+   },
+   "col_width": "1",
+   "widgets": [
+    {
+     "type": "indicator",
+     "settings": {
+      "title": "Watering LED Indicator",
+      "value": "datasources[\"esp8266\"][\"/SmartPlant/dirt\"].split(\"+\")[6]==\"1\"",
+      "on_text": "Watering",
+      "off_text": "Not watering"
+     }
+    },
+    {
+     "type": "Button",
+     "settings": {
+      "caption": "Water Now",
+      "text": "",
+      "color": "green",
+      "onClick": "microgear[\"esp8266\"].chat(\"nodemcu\", \"f\");"
+     }
+    }
+   ]
+  }
+ ],
+ "datasources": [
+  {
+   "name": "TIME",
+   "type": "clock",
+   "settings": {
+    "name": "TIME",
+    "refresh": 1
+   }
+  },
+  {
+   "name": "esp8266",
+   "type": "netpie_microgear",
+   "settings": {
+    "name": "esp8266",
+    "appid": "SmartPlant",
+    "key": "kr5mzn2NBDJ9EOU",
+    "secret": "uFBdXgz8k2XkquT2UM11A0s1d",
+    "topics": "/#"
+   }
+  }
+ ],
+ "columns": 5,
+ "theme": "default"
+}
